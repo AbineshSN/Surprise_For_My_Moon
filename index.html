@@ -74,6 +74,9 @@
     .flash.show {
       opacity: 1;
     }
+    audio {
+      display: none;
+    }
     .hidden {
       display: none;
     }
@@ -96,6 +99,7 @@
 
   <!-- Blast Sound -->
   <audio id="blastSound" src="blast.mp3" preload="auto"></audio>
+  <audio id="bgMusic" src="piano.mp3" autoplay loop></audio>
 
   <script>
     const gift = document.getElementById("giftBox");
