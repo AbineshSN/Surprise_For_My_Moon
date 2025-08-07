@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Surprise Gift For My Moon</title>
+  <link rel="icon" type="image/png" href="giftbox.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+    .photo-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70vw;
+      height: 60vh;
+      background: rgba(40, 38, 38, 0.3);
+      overflow: hidden;
+      border-radius: 12px;
+      z-index: 1;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .photo-frame {
+      position: absolute;
+      top: 50%;
+      width: 300px;
+      height: 300px;
+      background: white;
+      padding: 10px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      opacity: 0;
+      animation: slideRight 18s linear forwards;
+      border-radius: 4px;
+    }
+
+    .photo-image {
+      width: 100%;
+      height: 100%;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .photo-image img {
+      max-width: 100%;
+      max-height: 120%;
+      object-fit: fill;
+    }
+
+    .photo-label {
+      height: 25%;
+      text-align: center;
+      padding-top: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      color: #333;
+    }
+
+    @keyframes slideRight {
+      0% { transform: translateX(-300px); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateX(100vw); opacity: 0; }
+    }
+
+    .video-frame {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 600px;
+      height: 450px;
+      background: white;
+      transform: translateY(-50%);
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+      z-index: 2;
+      border-radius: 6px;
+      animation: slideVideoToCenter 3s ease-in-out forwards;
+    }
+
+    .video-frame video {
+      width: 200%;
+      height: 130%;
+      object-fit: cover;
+    }
+
+    .video-frame .photo-label {
+      height: 15%;
+      text-align: center;
+      padding-top: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      color: #333;
+    }
+
+    @keyframes slideVideoToCenter {
+      0% {
+        transform: translate(-60%, -50%);
+        opacity: 0;
+      }
+      100% {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+      }
+    }
+
+    /* Gift Box */
+    .gift-link {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .gift-breathe {
+      width: 150px;
+      height: auto;
+      cursor: pointer;
+      animation: breathe-gift 2.5s ease-in-out infinite, glow-pink 1.5s infinite alternate;
+    }
+
+    @keyframes breathe-gift {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    @keyframes glow-pink {
+      0% {
+        filter: drop-shadow(0 0 5px red) drop-shadow(0 0 10px gold);
+      }
+      100% {
+        filter: drop-shadow(0 0 15px red) drop-shadow(0 0 25px gold);
+      }
+    }
+    /* 🚪 Exit Button */
+    .exit-arrow {
+      position: fixed;
+      top: 380px;
+      right: 0;
+      transform: translateY(-50%);
+      background: rgb(22, 18, 58);
+      color: rgb(255, 255, 255);
+      font-family: sans-serif;
+      font-size: 16px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 0 10px rgb(24, 23, 46);
+      transition: background 0.3s ease;
+    }
+
+    .exit-arrow:hover {
+      background: black;
+    }
+
+    .flash-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: pink; /* Baby pink flash */
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+    .flash-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Video -->
+  <video autoplay muted loop id="bg-video">
+    <source src="background.mp4" type="video/mp4">
+  </video>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" src="musicvideo.mp3" autoplay loop></audio>
+
+  <!-- Gift Box -->
+  <a href="index3.html" class="gift-link">
+    <img src="giftbox.png" alt="Gift Box" class="gift-breathe">
+  </a>
+
+  <!-- Exit Arrow -->
+  <button class="exit-arrow" onclick="window.location.href='index5.html'">Exit ➜</button>
+
+
+  <div id="flashOverlay" class="flash-overlay"></div>
+
+
+  <!-- Photo Container -->
+  <div class="photo-container" id="photoContainer">
+    <!-- Final Video Frame will be appended later -->
+  </div>
+
+  <script>
+    const imageList = Array.from({ length: 22 }, (_, i) => `img${i + 1}.jpg`);
+    const container = document.getElementById("photoContainer");
+    const containerHeight = container.clientHeight;
+    const frameHeight = 260;
+
+    imageList.forEach((src, index) => {
+      const frame = document.createElement("div");
+      frame.className = "photo-frame";
+
+      const maxTop = containerHeight - frameHeight;
+      const topOffset = Math.random() * maxTop;
+      frame.style.top = `${topOffset}px`;
+
+      const delay = index * 3.5;
+      frame.style.animationDelay = `${delay}s`;
+
+      const imageBox = document.createElement("div");
+      imageBox.className = "photo-image";
+
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = `Photo ${index + 1}`;
+      imageBox.appendChild(img);
+
+      const label = document.createElement("div");
+      label.className = "photo-label";
+
+      frame.appendChild(imageBox);
+      frame.appendChild(label);
+      container.appendChild(frame);
+    });
+
+    // Add final video frame AFTER all photo animations are done
+    setTimeout(() => {
+      const videoFrame = document.createElement("div");
+      videoFrame.className = "video-frame";
+
+      const videoBox = document.createElement("div");
+      videoBox.className = "photo-image";
+      const video = document.createElement("video");
+      video.autoplay = true;
+      video.muted = true;
+      video.innerHTML = `<source src="surprise.mp4" type="video/mp4">`;
+      videoBox.appendChild(video);
+
+      const label = document.createElement("div");
+      label.className = "photo-label";
+      label.textContent = "A Special Moment 🎥";
+
+      videoFrame.appendChild(videoBox);
+      videoFrame.appendChild(label);
+
+      container.appendChild(videoFrame);
+
+      // Display it with animation
+      videoFrame.style.display = "flex";
+    }, 87000); // After 85 seconds (14 x 3.5 + 18)
+    
+    window.addEventListener('DOMContentLoaded', () => {
+      const bgMusic = document.getElementById('bgMusic');
+      setTimeout(() => {
+        const playPromise = bgMusic.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            console.log("Autoplay blocked. User must interact.");
+          });
+        }
+      }, 500);
+    });
+    const giftLink = document.querySelector(".gift-link");
+    const flashOverlay = document.getElementById("flashOverlay");
+
+    giftLink.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      // Trigger flash
+      flashOverlay.classList.add("flash-active");
+
+      // Wait for flash to complete, then redirect
+      setTimeout(() => {
+        window.location.href = giftLink.href;
+      }, 600); // Duration matches CSS transition
+    });
+
+  </script>
+
+</body>
+</html>

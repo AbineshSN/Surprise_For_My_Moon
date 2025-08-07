@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Surprise Gift For My Moon</title>
+  <link rel="icon" type="image/png" href="giftbox.png">
+  <link rel="stylesheet" href="style1.css">
+  <style>
+    /* Base Setup */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Background Video */
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Gift Box Container */
+    .container {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Gift Box Image */
+    .gift-box {
+      width: 500px;
+      height: auto;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+      z-index: 2;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .explode {
+      transform: scale(2);
+      opacity: 0;
+    }
+
+    /* White Flash */
+    .flash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: white;
+      width: 100vw;
+      height: 100vh;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+    .flash.show {
+      opacity: 1;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Video -->
+  <video autoplay muted loop id="bg-video">
+    <source src="background.mp4" type="video/mp4">
+  </video>
+
+  <!-- Gift Box -->
+  <div class="container">
+    <img id="giftBox" class="gift-box" src="giftbox.png" alt="Gift Box" />
+  </div>
+
+  <!-- White Flash -->
+  <div id="flash" class="flash hidden"></div>
+
+  <!-- Blast Sound -->
+  <audio id="blastSound" src="blast.mp3" preload="auto"></audio>
+
+  <script>
+    const gift = document.getElementById("giftBox");
+    const flash = document.getElementById("flash");
+    const sound = document.getElementById("blastSound");
+
+    gift.addEventListener("click", () => {
+      sound.play();
+
+      // Shrink + hide gift
+      gift.classList.add("explode");
+
+      // Flash screen
+      setTimeout(() => {
+        flash.classList.remove("hidden");
+        flash.classList.add("show");
+      }, 300);
+
+      // Redirect to index2
+      setTimeout(() => {
+        window.location.href = "index2.html";
+      }, 1300);
+    });
+  </script>
+
+</body>
+</html>

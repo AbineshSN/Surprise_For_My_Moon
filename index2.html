@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Surprise Gift For My Moon</title>
+  <link rel="stylesheet" href="style2.css">
+  <link rel="icon" type="image/png" href="giftbox.png">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Background Video */
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Main Message */
+    .content {
+      position: absolute;
+      top: 45%;
+      left: 70%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 30px 25px;
+      border-radius: 40px;
+      width: 800px;
+      z-index: 5;
+    }
+    .content h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3rem;
+      color: #ffd700;
+      margin-bottom: 20px;
+    }
+    .content p {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+    }
+
+    /* Small Gift Box */
+    .small-gift {
+      margin-top: 20px;
+      width: 220px;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    /* Popup Flash & Big Gift */
+    .gift-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .flash {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .flash.show {
+      opacity: 1;
+    }
+    .flash-white {
+      background: white;
+    }
+
+    /* Choice Flash Popup */
+    .choice-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    /* Large Gift Box */
+    .gift-box-large {
+      width: 14rem;
+      animation: pop 0.6s ease-out;
+      z-index: 2;
+    }
+
+    /* Gift Choices */
+    .gift-options {
+      position: absolute;
+      bottom: 70px;
+      left: 70%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6rem;
+      z-index: 4;
+      opacity: 0;
+      transition: opacity 1s ease-in;
+    }
+    .gift-options.show {
+      opacity: 1;
+    }
+    .gift-choice {
+      width: 180px;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+      transition: transform 0.3s ease;
+    }
+    .gift-choice:hover {
+      transform: scale(1.1);
+    }
+
+    /* Hidden Utility */
+    .hidden {
+      display: none;
+    }
+
+    /* Image container */
+    .image-container {
+      position: absolute;
+      top: 50%;
+      left: 2%;
+      transform: translateY(-50%);
+      z-index: 3;
+    }
+
+    /* Image Animation */
+    .left-image {
+      width: 550px;
+      height: auto;
+      border-radius: 30px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+      opacity: 0;
+      transform: translateY(-150%);
+      transition: transform 6s ease, opacity 3s ease;
+    }
+    .left-image.slide-in-from-top {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+
+    /* Pop */
+    @keyframes pop {
+      0% {
+        transform: scale(0.2);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Background Video -->
+  <video autoplay muted loop id="bg-video">
+    <source src="background.mp4" type="video/mp4">
+  </video>
+
+  <!-- Sound -->
+  <audio id="blastSound" src="blast.mp3" preload="auto"></audio>
+
+  <!-- Image Container -->
+  <div class="image-container hidden" id="moonContainer">
+    <img src="image.jpeg" alt="Moon" class="left-image" id="moonImage" />
+  </div>
+
+  <!-- Main Message -->
+  <div class="content">
+    <h1>Happy Birthday Moon 🌙 🎉</h1>
+    <p>Today will be your wonderful day in your life,</p>
+    <p>Filled with joy, laughter, and everything that makes you smile.</p>
+    <p>Today is the beginning of a beautiful chapter full of love, success, and unforgettable moments.</p>
+    <p>You truly deserve all the happiness in the world.</p>
+    <img src="giftbox.png" alt="Gift Box" id="smallGift" class="small-gift" />
+  </div>
+
+  <!-- Flash & Big Box -->
+  <div class="gift-popup hidden" id="giftPopup">
+    <div class="flash flash-white" id="flash"></div>
+    <img src="giftbox.png" class="gift-box-large" id="bigGiftBox" />
+  </div>
+
+  <!-- Choice Flash & Popup for gift options -->
+  <div class="choice-popup hidden" id="choicePopup">
+    <div class="flash" id="choiceFlash"></div>
+  </div>
+
+  <!-- Gift Options -->
+  <div class="gift-options hidden" id="giftOptions"> 
+    <img src="giftbox.png" class="gift-choice" data-link="index3.html" data-color="pink" alt="Written Gift" />
+    <img src="giftbox.png" class="gift-choice" data-link="index4.html" data-color="black" alt="Surprise Gift" />
+  </div>
+
+  <script>
+    const smallGift = document.getElementById("smallGift");
+    const popup = document.getElementById("giftPopup");
+    const flash = document.getElementById("flash");
+    const bigGift = document.getElementById("bigGiftBox");
+    const options = document.getElementById("giftOptions");
+    const blastSound = document.getElementById("blastSound");
+    const moonContainer = document.getElementById("moonContainer");
+    const moonImage = document.getElementById("moonImage");
+
+    const choiceFlash = document.getElementById("choiceFlash");
+    const choicePopup = document.getElementById("choicePopup");
+
+    // ✅ Show the image after 5 seconds of page load
+    window.onload = () => {
+      setTimeout(() => {
+        moonContainer.classList.remove("hidden");
+        moonImage.classList.add("slide-in-from-top");
+      }, 12000);
+    };
+
+    // 🎁 First gift box click
+    smallGift.addEventListener("click", () => {
+      smallGift.style.display = "none";
+      popup.classList.remove("hidden");
+
+      setTimeout(() => {
+        blastSound.currentTime = 0;
+        blastSound.play();
+        flash.classList.add("show");
+        bigGift.style.display = "none";
+      }, 700);
+
+      setTimeout(() => {
+        flash.classList.remove("show");
+        popup.classList.add("hidden");
+        options.classList.remove("hidden");
+        options.classList.add("show");
+      }, 1500);
+    });
+
+    // 🎁 Gift Choices
+    document.querySelectorAll(".gift-choice").forEach(choice => {
+      choice.addEventListener("click", (e) => {
+        e.preventDefault();
+        const link = choice.getAttribute("data-link");
+        const color = choice.getAttribute("data-color");
+
+        choiceFlash.style.background = color === "pink" ? "#f6c2d4" : "#040314";
+
+        choicePopup.classList.remove("hidden");
+        blastSound.currentTime = 0;
+        blastSound.play();
+        choiceFlash.classList.add("show");
+
+        setTimeout(() => {
+          choiceFlash.classList.remove("show");
+          choicePopup.classList.add("hidden");
+          window.location.href = link;
+        }, 1000);
+      });
+    });
+  </script>
+
+
+</body>
+</html>
