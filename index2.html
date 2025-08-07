@@ -89,6 +89,7 @@
       top: 0;
       left: 0;
       opacity: 0;
+      background: rgb(255, 255, 255);
       pointer-events: none;
       transition: opacity 0.3s;
     }
@@ -97,6 +98,9 @@
     }
     .flash-white {
       background: white;
+    }
+    audio {
+      display: none;
     }
 
     /* Choice Flash Popup */
@@ -199,6 +203,7 @@
 
   <!-- Sound -->
   <audio id="blastSound" src="blast.mp3" preload="auto"></audio>
+  <audio id="bgMusic" src="piano.mp3" autoplay loop></audio>
 
   <!-- Image Container -->
   <div class="image-container hidden" id="moonContainer">
@@ -291,7 +296,7 @@
           choiceFlash.classList.remove("show");
           choicePopup.classList.add("hidden");
           window.location.href = link;
-        }, 1000);
+        }, 1500);
       });
     });
   </script>
